@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body_class 'chat conference' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-light">Welcome to the <strong class="text-white">Symfony AI</strong> Workshop</h1>
+        <p class="my-4 text-light">
+            With Symfony AI a new ecosystem for AI-integrated or agentic applications in PHP got launched and with this
+            workshop we want to dive into the components, understand concepts and build different features from simple
+            use-cases to agentic workflows. No prior knowledge other than Symfony and Docker is needed.
+        </p>
+        {{ component('conference') }}
+    </div>
+{% endblock %}

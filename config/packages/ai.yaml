@@ -1,0 +1,9 @@
+ai:
+    # We can configure platforms, agents, multi-agents, stores, vectorizers and indexers here
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # We can configure services related to AI here

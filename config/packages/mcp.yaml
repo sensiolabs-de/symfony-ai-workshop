@@ -1,0 +1,16 @@
+mcp:
+    servers:
+        demo_app:
+            name: demo-app
+            version: 0.0.1
+            pagination_limit: 10
+            instructions: |
+                This demo MCP server provides information about the Symfony conference.
+
+                Use this server when you need to search the conference schedule for talks, speakers or time slots.
+            registry: '*'
+            transports:
+                stdio: true
+                http: true
+            session:
+                store: file

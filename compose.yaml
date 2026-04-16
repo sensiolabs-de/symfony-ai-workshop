@@ -1,0 +1,24 @@
+services:
+    app:
+        image: dunglas/frankenphp:1-php8.4-bookworm
+        volumes:
+            - ./:/app
+            - ./php.ini:/usr/local/etc/php/conf.d/99-custom.ini
+        ports:
+            - 443:443
+        tty: true
+
+    composer:
+        image: composer:2
+        volumes:
+            - ./:/app
+
+    chromadb:
+        # Same server version the PHP client (codewithkyrian/chromadb-php) is tested against.
+        image: chromadb/chroma:1.0.8
+        ports:
+            - '8080:8000'
+        volumes:
+            # Chroma 1.x persists to /data and no longer reads IS_PERSISTENT or
+            # PERSIST_DIRECTORY, which is why those settings are gone.
+            - ./chromadb:/data

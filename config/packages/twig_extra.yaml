@@ -1,0 +1,5 @@
+twig_extra:
+    commonmark:
+        # Model answers are untrusted: escape raw HTML and drop unsafe links when rendering markdown
+        html_input: escape
+        allow_unsafe_links: false
