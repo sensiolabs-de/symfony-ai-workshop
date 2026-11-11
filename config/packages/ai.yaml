@@ -13,15 +13,34 @@ ai:
                 memory. Provide accurate and concise information based on the conference schedule and details. Do not
                 make up answers if the information is not available. If you do not know the answer, just say "I do not
                 know". Answer in a friendly and professional manner, suitable for conference attendees. Keep your
-                answers concise and to the point. Use markdown formatting where appropriate.
+                answers concise and to the point. Use markdown formatting where appropriate. For searching information
+                about the conference schedule, make use of the provided tool SimilaritySearch.
             tools:
+                - 'Symfony\AI\Agent\Bridge\SimilaritySearch\SimilaritySearch'
                 - 'App\Conference\ClockTool'
             memory:
                 service: 'App\Conference\ConferenceFacts'
+    store:
+        chromadb:
+            conference_schedule:
+                collection: 'conference_schedule'
+    vectorizer:
+        openai:
+            platform: 'ai.platform.openai'
+            model: 'text-embedding-3-small'
+    retriever:
+        schedule:
+            vectorizer: 'ai.vectorizer.openai'
+            store: 'ai.store.chromadb.conference_schedule'
+    indexer:
+        schedule:
+            loader: 'App\Conference\ProgramLoader'
+            vectorizer: 'ai.vectorizer.openai'
+            store: 'ai.store.chromadb.conference_schedule'
 
 services:
     _defaults:
         autowire: true
         autoconfigure: true
 
-    # We can configure services related to AI here
+    Symfony\AI\Agent\Bridge\SimilaritySearch\SimilaritySearch: ~

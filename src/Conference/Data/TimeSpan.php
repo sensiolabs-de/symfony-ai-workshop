@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Conference\Data;
+
+final class TimeSpan
+{
+    private const TIME_ZONE = 'Europe/Warsaw';
+
+    public function __construct(
+        private \DateTimeImmutable $start,
+        private \DateTimeImmutable $end,
+    ) {
+        $this->start = $this->enforceConferenceTimeZone($this->start);
+        $this->end = $this->enforceConferenceTimeZone($this->end);
+
+        if ($this->start > $this->end) {
+            throw new \InvalidArgumentException('The time span needs to start before it ends.');
+        }
+    }
+
+    public function getStart(): \DateTimeImmutable
+    {
+        return $this->enforceConferenceTimeZone($this->start);
+    }
+
+    public function getEnd(): \DateTimeImmutable
+    {
+        return $this->enforceConferenceTimeZone($this->end);
+    }
+
+    public function toString(): string
+    {
+        return \sprintf('%s - %s', $this->getStart()->format('M d: H:i'), $this->getEnd()->format('H:i'));
+    }
+
+    private function enforceConferenceTimeZone(\DateTimeImmutable $dateTime): \DateTimeImmutable
+    {
+        return $dateTime->setTimezone(new \DateTimeZone(self::TIME_ZONE));
+    }
+}
