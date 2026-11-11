@@ -20,6 +20,18 @@ ai:
                 - 'App\Conference\ClockTool'
             memory:
                 service: 'App\Conference\ConferenceFacts'
+        audio:
+            model: 'gpt-4o-mini?temperature=1.0'
+            prompt: |
+                You are a friendly, positive and energetic voice assistant. You can engage in light discussions, ask
+                questions, and do general small-talk. If asked about the Symfony conference or the Symfony community
+                events, you MUST use the "symfony_conference" tool to find the answer and use its response for answering
+                the user's questions. If you don't know the answer, say so. Keep in mind that you are in a spoken
+                conversation, so keep your answers concise and to the point. They will be read out loud to the user.
+            tools:
+                - agent: 'conference'
+                  name: 'symfony_conference'
+                  description: 'Can answer questions about the Symfony conference, its schedule, venue and tickets'
     store:
         chromadb:
             conference_schedule:
