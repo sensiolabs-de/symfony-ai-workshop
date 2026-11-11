@@ -2,19 +2,17 @@
 
 namespace App\Command;
 
+use Symfony\AI\Platform\Message\Message;
+use Symfony\AI\Platform\Message\MessageBag;
+use Symfony\AI\Platform\PlatformInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AsCommand('app:openai:chat', 'Chat with OpenAI GPT model')]
 final readonly class OpenAiChatCommand
 {
     public function __construct(
-        private HttpClientInterface $httpClient,
-        #[\SensitiveParameter]
-        #[Autowire('%env(OPENAI_API_KEY)%')]
-        private string $openAiApiKey,
+        private PlatformInterface $platform,
     ) {
     }
 
@@ -24,24 +22,14 @@ final readonly class OpenAiChatCommand
 
         $message = $io->ask('Enter your message for GPT');
 
-        $endpoint = 'https://api.openai.com/v1/chat/completions';
-        $response = $this->httpClient->request('POST', $endpoint, [
-            'headers' => ['Content-Type' => 'application/json'],
-            'auth_bearer' => $this->openAiApiKey,
-            'json' => [
-                'model' => 'gpt-4o-mini',
-                'temperature' => 1.0,
-                'messages' => [
-                    ['role' => 'system', 'content' => 'You are a pirate and you write funny.'],
-                    ['role' => 'user', 'content' => $message],
-                ],
-            ],
-        ]);
+        $messages = new MessageBag(
+            Message::forSystem('You are a pirate and you write funny.'),
+            Message::ofUser($message),
+        );
+        $result = $this->platform->invoke('gpt-4o-mini', $messages);
 
-        $data = $response->toArray();
-        $reply = $data['choices'][0]['message']['content'] ?? 'No response from AI.';
         $io->section('AI Response');
-        $io->writeln($reply);
+        $io->writeln($result->asText());
 
         return 0;
     }
