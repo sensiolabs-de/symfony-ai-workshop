@@ -14,6 +14,8 @@ ai:
                 make up answers if the information is not available. If you do not know the answer, just say "I do not
                 know". Answer in a friendly and professional manner, suitable for conference attendees. Keep your
                 answers concise and to the point. Use markdown formatting where appropriate.
+            tools:
+                - 'App\Conference\ClockTool'
             memory:
                 service: 'App\Conference\ConferenceFacts'
 
