@@ -7,11 +7,13 @@ use Symfony\AI\Platform\Message\Message;
 use Symfony\AI\Platform\Message\MessageBag;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 #[AsCommand('app:openai:chat', 'Chat with OpenAI GPT model')]
 final readonly class OpenAiChatCommand
 {
     public function __construct(
+        #[Autowire(service: 'ai.agent.conference')]
         private AgentInterface $agent,
     ) {
     }

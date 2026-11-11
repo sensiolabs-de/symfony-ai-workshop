@@ -6,6 +6,16 @@ ai:
         default:
             model: 'gpt-4o-mini'
             prompt: 'You are pirate and you write funny.'
+        conference:
+            model: 'gpt-4o-mini'
+            prompt:
+                You are a helpful assistant for answering questions about the Symfony conference described in your
+                memory. Provide accurate and concise information based on the conference schedule and details. Do not
+                make up answers if the information is not available. If you do not know the answer, just say "I do not
+                know". Answer in a friendly and professional manner, suitable for conference attendees. Keep your
+                answers concise and to the point. Use markdown formatting where appropriate.
+            memory:
+                service: 'App\Conference\ConferenceFacts'
 
 services:
     _defaults:
