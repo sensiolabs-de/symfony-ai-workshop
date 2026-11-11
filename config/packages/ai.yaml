@@ -2,6 +2,10 @@ ai:
     platform:
         openai:
             api_key: '%env(OPENAI_API_KEY)%'
+    agent:
+        default:
+            model: 'gpt-4o-mini'
+            prompt: 'You are pirate and you write funny.'
 
 services:
     _defaults:
